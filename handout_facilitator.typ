@@ -241,7 +241,7 @@ Fahren auf Sicht ist bei hohen Geschwindigkeiten nicht möglich. @pachl_systemte
     - Das Vorsignal und das rückliegende Hauptsignal werden am selben Ort angeordnet.
 - Mehrabschnittssignalisierung @pachl_systemtechnik_2022[S. 50]
   - Das Hauptsignal zeigt Informationen, die für mindestens zwei Blockabschnitte gültig sind
-  - Ist der Vorsignalabstand $>=$ der Blocklänge werden keine Vorsignale Benötigt, da die Hauptsignale diese Funktion übernehmen.
+  - Ist der Vorsignalabstand $>=$ der Blocklänge werden keine Vorsignale benötigt, da die Hauptsignale diese Funktion übernehmen.
   - Zweiabschnittssignalisierung @pachl_systemtechnik_2022[S. 50]
     - Ks-Signalsystem in Deutschland
     - Ist der Vorsignalabstand $<$ die Blocklänge ist eine Einabschnittssignalisierung Leistungsfähiger als eine Mehrabschnittssignalisierung. Deswegen ist es beim Ks-Signalsystem möglich in die Einabschnittssignalisierung zu wechseln @pachl_systemtechnik_2022[S. 52].

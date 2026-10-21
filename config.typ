@@ -1,3 +1,6 @@
+#let warning-to-set-lang = text(fill: orange)[The language has to be set either to German or English to show this section]
+
+
 #let small_heading(content) = {text(size: 12pt, weight: "bold", content)} // TODO rename
 
 #let rollen = small_heading([Rollen])

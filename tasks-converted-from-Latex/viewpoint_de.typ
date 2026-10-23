@@ -23,7 +23,6 @@ Der Saboteur schreibt sich je Durchgang das Feld (zwischen Feld 5 und 15) verdec
 
   Der Nahverkehrszug steht auf Feld 0 und soll möglichst schnell Feld 20 erreichen.
 
-#pagebreak()
 
 #aufgaben\
   #[

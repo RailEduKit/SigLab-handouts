@@ -1,6 +1,6 @@
 #import "../config.typ":*
 
-== Zwieschutzweichen Aufgabe
+== Aufgaben: Zwieschutzweichen 
 
 #rollen\
   - Spielleiter

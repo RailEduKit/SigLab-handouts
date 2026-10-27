@@ -1,6 +1,6 @@
 #import "../config.typ":*
 
-== Sicht- und Bremsweg Aufgaben
+== Aufgaben: Sicht- und Bremsweg 
 
 #rollen\
   - Spielleiter

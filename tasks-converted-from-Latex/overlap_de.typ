@@ -1,5 +1,5 @@
-#import "../config.typ":* //TODO one import in main.typ enough or does it have to be imported in every file?
-= Durchrutschweg Aufgaben
+#import "../config.typ":*
+== Aufgaben: Durchrutschweg 
 
 #rollen\
   - Spielleiter

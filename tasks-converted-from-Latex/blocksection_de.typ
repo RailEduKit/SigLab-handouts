@@ -1,6 +1,6 @@
 #import "../config.typ":*
 
-== Blockteilung
+== Aufgaben: Blockteilung
 
 #rollen\
   - Spielleiter

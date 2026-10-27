@@ -1,6 +1,6 @@
 #import "../config.typ":*
 
-== Fahrzeitberechnung Aufgaben
+== Aufgaben: Fahrzeitberechnung 
 
 #rollen\
   - Spielleiter

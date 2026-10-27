@@ -1,5 +1,5 @@
 #import "../config.typ":*
-== Zugfolge mit Fahrstraßen Aufgabe
+== Aufgaben: Zugfolge mit Fahrstraßen 
 
 #rollen\
   - Spielleiter

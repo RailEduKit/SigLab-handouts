@@ -1,11 +1,12 @@
 //TODO compare with original text in LaTeX, to make sure there are no AI mistakes
 
-= Fahrdynamik Tutorial
+#import "../config.typ":*
+
+== Tutorial: Fahrdynamik 
 
 In diesem ersten Tutorial werden die Grundlagen der Fahrdynamiksimulation im Spiel vermittelt.
 
-== Rollen
-
+#rollen\
 - Spielleiter
 - Triebfahrzeugführer des Nahverkehrszuges
 
@@ -13,29 +14,26 @@ Der Spielleiter führt durch das Tutorial bzw. durch die Aufgabe. Er oder Sie er
 
 Ein Triebfahrzeugführer erhält das zum jeweiligen Zug gehörende Fahrdynamikmodell und ist für das Beschleunigen/Abbremsen, das Bedienen der Zähleinrichtungen und das Bewegen seines Zuges verantwortlich.
 
-== Material
-
+#materialien\
 - Gleise
 - zwei Bahnsteige
 - Nahverkehrszug (braun) mit Fahrbrett und rotem Fahrdynamikmodell, Zugschluss- und -spitzensignal
 
-== Funktion des Fahrbrettes
+#small_heading([Funktion des Fahrbrettes])
 
 // TODO add figure #tikzfigure("driving_board.tikz")
 
-*Ausgangssituation*
+#aufbau\
   // TODO add figure #tikzfigure("tutorial_trainrun_setup.tikz")
 
 
-== Ablauf
-
+#ablauf\
 In der Stufe 1 besteht ein Runde aus folgenden Phasen:
 
 1. Schalthebelposition ändern (Beschleunigen/Bremsen)
 2. Züge bewegen
 
-=== Runde 1
-
+#runde(1)\
 #emph[Phase 1:] Der Nahverkehrszug steht zu Beginn der Runde 1 am Bahnsteig. Um ihn bewegen zu können muss der Triebfahrzeugführer in Phase 1 den Schalthebel verstellen. Hierzu setzt er den Schalthebel auf dem Fahrbrett von dem Feld 0 $frac("km", "h", style: "skewed")$ (0 Felder) auf 40 $frac("km", "h", style: "skewed")$ (1 Feld). Außerdem muss die Fahrtrichtung des Zuges durch ein Spitzen- und ein Zugschlusssignal angezeigt werden. Diese muss der Triebfahrzeugführer an den offenen Kupplungen befestigen. Hiermit ist die Phase 1 zu Ende.
 
 #block(
@@ -54,18 +52,15 @@ In der Stufe 1 besteht ein Runde aus folgenden Phasen:
   Beim Bewegen der Züge kann es dazu kommen, dass ein Zug einen Halt verpasst, ein Signal überfährt oder sogar einen Unfall hat. In diesem Fall ist es sinnvoll die Runde erst zu beenden und dann zu überlegen, an welcher Stelle ein Fehler passiert ist. Im Anschluss musst du entscheiden wie du fortfahren willst (z.B. Halt ausfallen lassen, hinter dem Signal anhalten, zwei Runden zurückgehen oder das ganze Level neu anfangen).
 ]
 
-=== Runde 2
-
+#runde(2)\
 #emph[Phase 1:] Der Zug beschleunigt weiter auf 80 $frac("km", "h", style: "skewed")$ (2 Felder).
 
 #emph[Phase 2:] Der Triebfahrzeugführer setzt den Zug entsprechende Felder vor. Denke dabei an die beiden Zähler. Dort sollte nach der Runde links eine 2 und rechts eine 3 stehen.
 
-=== Runde 3
-
+#runde(3)\
 Beschleunige den Zug auf 120 $frac("km", "h", style: "skewed")$ (3 Felder) und setze ihn entsprechend vor.
 
-=== Runde 4
-
+#runde(4)\
 In dieser Runde beschleunigt der Zug nicht weiter, da er seine Höchstgeschwindigkeit von 120 $frac("km", "h", style: "skewed")$ (3 Felder) bereits erreicht hat. Setze den Zug entsprechend vor.
 
 #block(
@@ -75,20 +70,16 @@ In dieser Runde beschleunigt der Zug nicht weiter, da er seine Höchstgeschwindi
   Achtung: Um an vorgegebenen Stellen den Zug passend anhalten zu können, bzw. in den folgenden Stufen Signale beachten zu können, musst du die nächsten Züge vorausplanen und darfst den Zug nicht zu weit beschleunigen.
 ]
 
-=== Runde 5
-
+#runde(5)\
 Beginnt in dieser Runde mit der Bremsung. Der Triebfahrzeugführer setzt den Schalthebel hierfür auf 80 $frac("km", "h", style: "skewed")$ (2 Felder) und den Zug entsprechende Felder vor.
 
-=== Runde 6
-
+#runde(6)\
 Bremst den Zug weiter auf 40 $frac("km", "h", style: "skewed")$ (1 Feld) ab und setzt ihn entsprechend vor.
 
-=== Runde 7
-
+#runde(7)\
 Beendet die Bremsung des Zuges indem der Triebfahrzeugführer den Schalthebel auf 0 $frac("km", "h", style: "skewed")$ (0 Felder) verstellt. Im Schritt „Züge bewegen“ kann der Zug dementsprechend nicht bewegt werden. Dementsprechend muss auch nur den Zähler der Runden einmal gedrückt werden.
 
-== Ende des Tutorials
-
+#small_heading([Ende des Tutorials])\
 Der Zug sollte jetzt am zweiten Bahnsteig auf den Feldern 11 und 12 stehen. Auf dem linken Zähler sollte eine 7 für die Anzahl der Runden und auf dem rechten Zähler eine 12 für die Anzahl der gefahrenen Felder zu sehen sein.
 
 #block(

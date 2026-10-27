@@ -1,32 +1,33 @@
-/* TODO adapt the following to typst manually
+#import "../config.typ":*
 
-\begin{titlepage}
-%--------------------------------------------
-  \thispagestyle{empty}
-  \centering
+#context{
+let logo-setting = image("../images/logo.svg")
+let logo-size = measure(logo-setting)
 
-  \vspace*{\fill}
+set page(background:
+    [
+      #place(
+        center+horizon,
+        dy: - logo-size.height, // The gap between text and logo is 2/6 of the logo height 
+        text(font: font-sans, weight: "bold", size: 32pt)[Interactive Signalling Laboratory]
+      )
+      #place(
+        center+horizon,
+        dy: - (1/6) * logo-size.height, //The logo is placed 4/6 above the horizon and 2/6 beneath the horizon
+        logo-setting
+      )
+      #place(
+        center+horizon,
+        dy: (4/6) * logo-size.height, // 2/6 of the logo lies beneath the horizon and 2/6 logo height is needed as gap
+        text()[“Spielen ist eine Tätigkeit, die man garnicht ernst genug nehmen kann!”]
+      )
+      #place(
+        right+horizon,
+        dy: (4/6) * logo-size.height + 25pt,
+        dx: -30mm,
+        text(style: "italic")[Jacques-Yves Cousteau]
+      )
+    ]
+)
 
-  \bfseries\Huge Interactive Signalling Laboratory
-
-  \vspace*{\fill}
-
-  \includegraphics[keepaspectratio,width=0.3\textwidth]{\ROOT/figures/logo.pdf}
-
-  \vspace*{\fill}
-  \vspace*{\fill}
-  \vspace*{\fill}
-
-  \normalfont\normalsize
-  \IfLanguage{english}{``Gaming is an activity that cannot be taken seriously enough!''}
-  \IfLanguage{ngerman}{``Spielen ist eine Tätigkeit, die man garnicht ernst genug nehmen kann!''} \\
-  \flushright \emph{Jacques-Yves Cousteau}\par
-
-  \vspace*{\fill}
-
-  \flushleft PDF Download URL:\\[0.2cm]
-  \hspace{0.7cm}
-  \qrcode[hyperlink,height=2cm]{https://github.com/RailEduKit/edugame-railway-operation/blob/master/handbook/handbook.pdf}
-
-%--------------------------------------------
-\end{titlepage} */
+}

@@ -75,3 +75,7 @@ Version 0.1
 ------
 
 created first papercut prototype with driving dynamics.
+
+
+<!-- 
+TODO add comment, that one has to install the font family Libertinus, to compile the handbook locally. In the web app it should work without installation. The font family is part of the project in the folder fonts  -->

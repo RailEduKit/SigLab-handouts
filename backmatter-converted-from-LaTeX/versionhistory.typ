@@ -1,5 +1,4 @@
 #import "../config.typ":*
-#set text(lang: "en")
 
 #let MS = "Martin Scheidt"
 #let FN = "Felix Nebel"
@@ -24,6 +23,7 @@ table(
     columns: (1fr, 1.5fr, 2.5fr, 5fr),
     inset: 0.5em,
     stroke: 0.5pt,
+    align: horizon,
 
     if german [*Version*]
     else if english [*Version*],

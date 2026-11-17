@@ -31,11 +31,13 @@
     fill a track
     change stroke of track (use on-layer to have the west connector beneath the previous)
     change stroke of gauge
+    disable gauge by setting the stroke to 0pt
 
    */
   straight-track((0,0), name: "track-1", track-fill: navy)
   straight-track("track-1", name: "track-2", track-stroke:(thickness: 0.7pt, paint: red))
   straight-track("track-2", name: "track-3", gauge-stroke:  (thickness: 2.1pt, paint: purple, dash: "dashed"))
+    straight-track("track-3", name: "track-4", gauge-stroke: 0pt)
 })
 
 #cetz.canvas({
@@ -108,6 +110,60 @@
     }
   }
 )
+
+#cetz.canvas(
+  {
+    import cetz.draw: *
+    /* 
+      draw only the connector
+     */
+    connector(())
+  }
+)
+
+#cetz.canvas(
+  {
+    import cetz.draw: *
+    /* 
+      draw only the gauge
+     */
+    gauge(())
+  }
+)
+
+#cetz.canvas({
+  import cetz.draw: *
+
+  /* 
+    test a good distance between two straight tracks
+   */
+
+  let draw-track-series(a) = {
+    for i in range(1, 8){
+      if i == 1 {
+        straight-track(a, name: "track-"+str(i), label: [#i])
+      }
+      else if i==4 {
+        dashed-track(
+          "track-"+str(i - 1),
+          length: 4, 
+          name: "track-"+str(i), label: [L: 5])
+      }
+      else {
+        let j = i+4
+        straight-track("track-"+str(i - 1), name: "track-"+str(i), label: 
+        if i > 4 {[#j]}
+        else {[#i]}
+        )
+      }
+    }
+  }
+
+  draw-track-series((0,0))
+  draw-track-series((0,2))
+
+})
+
 
 //--------------------------------------------------------------------------
 

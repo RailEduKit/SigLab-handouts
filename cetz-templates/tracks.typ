@@ -140,8 +140,47 @@
 }
 
 
+#let curved-track(
+  a,
+  name: none
+) = {
+  import cetz.draw: *
+  // TODO add rotate option
+  // TODO merge the lines
+  // TODO check if a left/right combination ends exactly at the second track
+  let body-l = 2
+  let body-h = 1
+  let belt-amount = 14
+  let belt-h = body-h/belt-amount
+  let outer-curve-h = body-h + calc.sqrt(calc.pow(body-h,2)/8)
+  let x = calc.sqrt(calc.pow(body-l,2)+calc.pow(outer-curve-h,2))
+  let outer-r = calc.sqrt(calc.pow(x,2) / (2-2*calc.cos(45)))
 
+  group(
+    name: name,
+    {
+      /* 
+      - the curve has to have the same length in x direction
+      - a left/ right combination has to have the same length as the two straigth tracks 
+      - a left right combination should end in a new track, with a good distance to the previous track*/
+      
+      set-origin(a)
+      line((0, body-h/2), (rel: (0, - body-h)), name:"vertical-line")
+      arc("vertical-line.end", start: 270deg, delta: 45deg, radius: outer-r, name: "outer-curve")
+      arc("vertical-line.start", start: 270deg, delta: 45deg, radius: outer-r - body-h, name: "inner-curve")
+      line("outer-curve.end", "inner-curve.end", name: "diagonal-line")
 
+      anchor("default", "diagonal-line.mid")
+      anchor("end", "diagonal-line.mid")
+      anchor("start", (0,0))
+    }
+  )
+}
+
+#cetz.canvas({
+  import cetz.draw: *
+  curved-track(())
+})
 
 /* #import "@preview/cetz:0.4.2"
 #import cetz.draw: *

@@ -109,7 +109,7 @@
   numbering: none,
 )
 #set page(header: none, footer: none)
-#set text(font: "Menlo", size: 9pt)
+#set text(size: 9pt)
 
 #cetz.canvas({
   import cetz.draw: *

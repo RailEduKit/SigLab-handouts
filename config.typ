@@ -31,7 +31,7 @@
 
 /* ++ Style of text variables ++ */
 
-#let small_heading(content) = {text(size: 12pt, weight: "bold", content)} // TODO rename
+#let small_heading(content) = {text(size: 12pt, weight: "bold", content)} // TODO rename variable
 
 #let rollen = small_heading([Rollen])
 #let role = small_heading([Roles])

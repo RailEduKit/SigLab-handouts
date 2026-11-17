@@ -9,7 +9,7 @@
   with-outline: false,
   arrow-paint: green,
   fields-fill: blue,
-  label-font: "Menlo",
+  //label-font: "Menlo",
   label-scale: 1.0,
   field-labels: ("field", "fields"),
 ) = {
@@ -51,11 +51,11 @@
       )
 
       let field-word = if fields == 1 { field-labels.at(0) } else { field-labels.at(1) }
-      content(xy(center-x, 1.6), text(font: label-font, size: spt(8.5 * label-scale))[km/h], anchor: "center", name: "label-unit")
-      content(xy(center-x, 1.0), text(font: label-font, size: spt(12 * label-scale))[#speed], anchor: "center", name: "label-speed")
+      content(xy(center-x, 1.6), text(size: spt(8.5 * label-scale))[km/h], anchor: "center", name: "label-unit")
+      content(xy(center-x, 1.0), text(size: spt(12 * label-scale))[#speed], anchor: "center", name: "label-speed")
       content(
         xy(center-x, 0.3),
-        text(font: label-font, size: spt(9 * label-scale), fill: fields-fill)[#fields #field-word],
+        text(size: spt(9 * label-scale), fill: fields-fill)[#fields #field-word],
         anchor: "center",
         name: "label-fields",
       )

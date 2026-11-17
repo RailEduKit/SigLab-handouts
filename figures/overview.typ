@@ -8,8 +8,8 @@
 
 #import "@preview/cetz:0.4.2"
 #import cetz.draw: *
-#import "tracks.typ": straight-segment, curve-segment, straight-track
-#import "train.typ": train
+#import "../cetz-templates/tracks.typ": straight-segment, curve-segment, straight-track
+#import "../cetz-templates/train.typ": train
 
 #set page(width: auto, height: auto, margin: 8mm)
 #set text(size: 9pt, fill: luma(40))

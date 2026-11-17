@@ -1,4 +1,118 @@
-/// Visual sandbox for `poster/figures/model` drawing primitives.
+#import "@preview/cetz:0.5.3"
+#import "../cetz-templates/tracks.typ": *
+
+
+#cetz.canvas({
+  import cetz.draw: *
+  /* 
+    draw a track.
+    the position of left connector is 0,0
+   */
+  straight-track((0,0))
+})
+
+#cetz.canvas({
+  import cetz.draw: *
+  /* 
+    series of tracks (empty bracket () uses a prevoious coordinate - if there is none it uses 0,0)
+    add a name
+    name of previous track as position for the next track
+    add label, which is shown at the center of the track
+   */
+  straight-track((), name: "track-1", label: [1])
+  straight-track("track-1", name: "track-2", label: [2])
+  straight-track("track-2", name: "track-3", label: [3])
+
+})
+
+#cetz.canvas({
+  import cetz.draw: *
+  /* 
+    fill a track
+    change stroke of track (use on-layer to have the west connector beneath the previous)
+    change stroke of gauge
+
+   */
+  straight-track((0,0), name: "track-1", track-fill: navy)
+  straight-track("track-1", name: "track-2", track-stroke:(thickness: 0.7pt, paint: red))
+  straight-track("track-2", name: "track-3", gauge-stroke:  (thickness: 2.1pt, paint: purple, dash: "dashed"))
+})
+
+#cetz.canvas({
+  import cetz.draw: *
+  /* 
+    draw a dashed track
+    use this to indicate a large amout of straigth tracks
+    default length is the length of one track
+   */
+  dashed-track(()) 
+})
+
+#cetz.canvas({
+  import cetz.draw: *
+
+  /* 
+    use a loop to have less work
+    change the langth of the dashed segment 
+   */
+
+  for i in range(1, 8){
+    if i == 1 {
+      straight-track((0,0), name: "track-"+str(i), label: [#i])
+    }
+    else if i==4 {
+      dashed-track(
+        "track-"+str(i - 1),
+        length: 4, 
+        name: "track-"+str(i), label: [L: 5])
+    }
+    else {
+      let j = i+4
+      straight-track("track-"+str(i - 1), name: "track-"+str(i), label: 
+      if i > 4 {[#j]}
+      else {[#i]}
+      )
+    }
+  }
+})
+
+#cetz.canvas(
+  {
+    import cetz.draw: *
+    /* 
+      standard anchors of typst
+     */
+    straight-track((), name: "track-1")
+
+    let anchors = ("north", "north-east", "east", "south-east", "south", "south-west", "west", "north-west", "center")
+
+    for name in anchors {
+      content("track-1."+name, box(inset: 1pt, fill: white, text(8pt, [#name])), angle: -30deg)
+    }
+  }
+)
+
+#cetz.canvas(
+  {
+    import cetz.draw: *
+    /* 
+      special anchors
+      forward and backward can be used to place signals and so on
+     */
+    straight-track((), name: "track-1")
+
+    let anchors = ("start", "end", "forward", "backward")
+
+    for name in anchors {
+      content("track-1."+name, box(inset: 1pt, fill: white, text(8pt, [#name])), angle: -30deg)
+    }
+  }
+)
+
+//--------------------------------------------------------------------------
+
+
+/* /// Visual sandbox for `poster/figures/model` drawing primitives.
 ///
 /// Compile from this directory:
 ///   typst compile test_model.typ
@@ -356,3 +470,4 @@
 //   my-piece(...)
 // })
 // ---------------------------------------------------------------------------
+ */

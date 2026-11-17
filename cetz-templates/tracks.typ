@@ -1,4 +1,149 @@
-#import "@preview/cetz:0.4.2"
+
+#import "@preview/cetz:0.5.3"
+// TODO How to define global style settings, which can be overritten locally? Can I acces in a function had global variables? And then put them or the overritten variable in a local variable, so that the function don't access the global variables directly
+
+// TODO how to set the style of the label global?
+
+#let connector(a, name: none, connector-stroke:  0.5pt + black) = {
+  // TODO change crown and trunk parameters according the straight track
+  // TODO add fill option
+  import cetz.draw:*
+  let crown-r = 1/7
+  let trunk-l = 3/14
+  rect((rel: (0, -crown-r/2), to: (a)), (rel: (trunk-l+crown-r, crown-r)), name: "trunk", stroke: none)
+  circle("trunk.east", radius: crown-r, name: "crown", stroke: none)
+
+  boolean(
+    "trunk",
+    "crown",
+    op:"union",
+    name: name,
+    stroke: connector-stroke
+  )
+}
+
+#let gauge(a, length: 2, name: none, gauge-stroke: 2.1pt + gray) = {
+  import cetz.draw: *
+  let body-l = length
+  let body-h = 1
+  let belt-amount = 14
+  let belt-h = body-h/belt-amount
+  group(
+    name: name, {
+      set-origin(a)
+      line((0, 4*belt-h), (rel: (body-l,0)), name: "top-gauge", stroke: gauge-stroke)
+      line((0, -4*belt-h),(rel: (body-l,0)), stroke: gauge-stroke)
+    }
+  )
+}
+
+#let dashed-track(
+  a, 
+  length: 2, 
+  name: none, 
+  track-stroke: (paint: black, thickness: 0.7pt, dash: "dashed"),
+  gauge-stroke: (paint: gray, thickness: 2.1pt, dash: "dashed"),
+  label: none
+) = {
+  // TODO add fill option
+  import cetz.draw: *
+  let body-l = length
+  let body-h = 1
+
+  group(
+    name: name,
+    {
+      set-origin(a)  
+      line((0,body-h/2), (rel: (body-l, 0)), name: "top-line", stroke: track-stroke)
+      line((0, -body-h/2), (rel: (body-l, 0)), stroke: track-stroke)
+      gauge((0,0), length: body-l, gauge-stroke: gauge-stroke)
+      content((body-l/2,0), [#label])
+
+      anchor("default", (body-l,0))
+      anchor("end", "default")
+      anchor("start", (0,0))
+      anchor("center", (body-l/2,0))
+    }
+  )
+  
+}
+
+
+#let straight-track(
+  a, 
+  name: none, 
+  track-stroke: 0.7pt + black, 
+  track-fill: none,
+  gauge-stroke: 2.1pt + gray,
+  label: none
+) = {
+  // To have no gauge set stroke to 0pt
+  // TODO add rotation, so that it automatically fits on a previous curve 
+  // TODO how to make set-gauge style possible, to set the style once and apply it to all elements 
+  import cetz.draw: *
+  let body-l = 2
+  let body-h = 1
+  let belt-amount = 14
+  let belt-h = body-h/belt-amount
+  group(
+    name: name,
+    {
+      set-origin(a)
+      rect((0,-body-h/2), (rel: (body-l,body-h)), name:"body", stroke: none)
+      connector("body.west", name: "west-connector", connector-stroke: none)
+      connector("body.east", name: "east-connector", connector-stroke: none)
+
+      let body-east-west-connectors(fill-setting) = {
+        boolean(
+          "body",
+          "east-connector",
+          op: "union",
+          name: "body-east-con",
+          stroke: none
+        )
+        boolean(
+          "body-east-con",
+          "west-connector",
+          op: "difference",
+          name: "body-east-west-connectors",
+          stroke: track-stroke,
+          fill: fill-setting
+        )
+      }
+      body-east-west-connectors(track-fill)
+      gauge((0,0), gauge-stroke: gauge-stroke)
+      body-east-west-connectors(none)
+      content((body-l/2,0), [#label])
+
+
+      anchor("default", (body-l,0))
+
+      anchor("center", (body-l/2,0))
+      anchor("north", (body-l/2, body-h/2))
+      anchor("north-east", (body-l, body-h/2))
+      anchor("east", (body-l, 0))
+      anchor("south-east", (body-l, -body-h/2))
+      anchor("south", (body-l/2, -body-h/2))
+      anchor("south-west", (0, -body-h/2))
+      anchor("west", (0,0))
+      anchor("north-west", (0, body-h/2))
+
+      anchor("end", "default")
+      anchor("start", (0,0))
+      anchor("forward", "south-east")
+      anchor("backward", "north-west")
+
+    }
+  )
+  
+  
+}
+
+
+
+
+
+/* #import "@preview/cetz:0.4.2"
 #import cetz.draw: *
 
 /// Draws one straight track row (solid segments plus optional dashed edge segments) inside `#cetz.canvas({ … })`.
@@ -380,3 +525,4 @@
     }
   }
 }
+ */

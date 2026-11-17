@@ -1,7 +1,13 @@
 #import "@preview/cetz:0.5.3"
 #import "../cetz-templates/tracks.typ": *
 
-#let model-scale = 1.0
+
+
+
+
+
+
+/* #let model-scale = 1.0
 
 #let make-connector(scale: model-scale) = (
   segment-width: 1 * scale,
@@ -35,4 +41,4 @@
 #cetz.canvas({
   import cetz.draw:*
   let scale = 1.0
-})
+}) */

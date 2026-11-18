@@ -142,7 +142,9 @@
 
 #let curved-track(
   a,
-  name: none
+  name: none,
+  z-rot: 0deg,
+  x-rot: 0deg
 ) = {
   import cetz.draw: *
   // TODO add rotate option
@@ -152,10 +154,27 @@
   let body-h = 1
   let belt-amount = 14
   let belt-h = body-h/belt-amount
-  let outer-curve-h = body-h + calc.sqrt(calc.pow(body-h,2)/8)
-  let x = calc.sqrt(calc.pow(body-l,2)+calc.pow(outer-curve-h,2))
-  let outer-r = calc.sqrt(calc.pow(x,2) / (2-2*calc.cos(45)))
+  let track-spacing = 2
+  
+  let curve-end = (body-l, (body-h+track-spacing)/2) 
+  let x = calc.sqrt(calc.pow(body-h/2,2)/2)
+  let south-east = (body-l+x, (body-h+track-spacing)/2 -x) 
+  let y = calc.sqrt(calc.pow(south-east.at(0), 2) + calc.pow(south-east.at(1), 2))
+  let alpha = calc.asin(south-east.at(1)/y)
+  let beta = 90deg - alpha
+  let curve-angle = (180deg - 90deg - beta)*2
+  let outer-r = (y/2) / calc.sin(curve-angle/2)
+  content((0,-3),[#x])
 
+
+
+/*   let curve-angle = 45deg
+  let outer-curve-h = 1.5 * body-h - calc.sqrt(calc.pow(body-h/2,2)/2)
+  let x = calc.sqrt(calc.pow(body-l,2)+calc.pow(outer-curve-h,2))
+  let outer-r = (x/2) / calc.sin(curve-angle/2) */
+  
+  set-origin(a)
+  rotate(z: z-rot, x: x-rot)
   group(
     name: name,
     {
@@ -163,13 +182,16 @@
       - the curve has to have the same length in x direction
       - a left/ right combination has to have the same length as the two straigth tracks 
       - a left right combination should end in a new track, with a good distance to the previous track*/
-      
-      set-origin(a)
-      line((0, body-h/2), (rel: (0, - body-h)), name:"vertical-line")
-      arc("vertical-line.end", start: 270deg, delta: 45deg, radius: outer-r, name: "outer-curve")
-      arc("vertical-line.start", start: 270deg, delta: 45deg, radius: outer-r - body-h, name: "inner-curve")
-      line("outer-curve.end", "inner-curve.end", name: "diagonal-line")
-
+      merge-path({
+        // TODO measure the angles of the prevoius element to set the angle of the next element. Or is this not neede, because the angles will not change, even though the size will maybe change?
+        // TODO merge path does not merge the beginning with the end properly
+        line((0, body-h/2), (rel: (0, - body-h)), name:"vertical-line")
+        arc((), start: 270deg, delta: curve-angle, radius: outer-r, name: "outer-curve")
+        line((), (rel: (angle: 45deg + 90deg, radius: body-h)), name: "diagonal-line")
+        arc((), start: curve-angle + 270deg, delta: -curve-angle, radius: outer-r - body-h)
+        //arc("vertical-line.start", start: 270deg, delta: 45deg, radius: outer-r - body-h, name: "inner-curve")
+        //line("outer-curve.end", "inner-curve.end", name: "diagonal-line")
+      })
       anchor("default", "diagonal-line.mid")
       anchor("end", "diagonal-line.mid")
       anchor("start", (0,0))
@@ -177,9 +199,50 @@
   )
 }
 
+#let calc-radius() = {
+    import cetz.draw: *
+  // TODO add rotate option
+  // TODO merge the lines
+  // TODO check if a left/right combination ends exactly at the second track
+  let body-l = 2
+  let body-h = 1
+  let belt-amount = 14
+  let belt-h = body-h/belt-amount
+  let track-spacing = 2
+  
+  let curve-end = (body-l, (body-h+track-spacing)/2) // Bedingung damit 2 Bögen genau auf dem nächsten TRack liegen
+  let x = calc.sqrt(calc.pow(body-h/2,2)/2) 
+  let south-east = (body-l+x, (body-h+track-spacing)/2 -x) // Hier muss der Bogen enden, damit die diagonale gerade genau an der richtigen Stelle liegt 
+  let south-west = (0,0) // hier startet der Bogen
+  let y = calc.sqrt(calc.pow(south-east.at(0), 2) + calc.pow(south-east.at(1), 2))
+  let alpha = calc.asin(south-east.at(1)/y)
+  let beta = 90deg - alpha
+  let curve-angle = (180deg - 90deg - beta)*2
+  let outer-r = (y/2) / calc.sin(curve-angle/2)
+
+  circle(curve-end, radius: 0.1, stroke: none, fill: red)
+  circle(south-east, radius: 0.1, stroke: none, fill: blue)
+  circle(south-west, radius: 0.1, stroke: none, fill: blue)
+
+  line(south-west, (rel: (0, body-h)), name: "vertical-line")
+  line(south-east, (rel: (angle: 45deg + 90deg, radius: body-h)), name: "diagonal-line")
+
+  line("diagonal-line.mid", (rel: (angle: 270deg, radius: x)))
+  line((), (rel: (angle: 0deg, radius: x)))
+
+  line(south-west, (rel: (angle: (90deg - 67.5deg), radius: y)))
+  content((0,-3),[#curve-angle])
+
+}
+
 #cetz.canvas({
   import cetz.draw: *
-  curved-track(())
+  calc-radius()
+
+
+/*   curved-track((), name: "curve-1")
+  circle("curve-1.end", radius: 0.1, stroke: none, fill: red)
+  curved-track("curve-1", x-rot: 180deg, z-rot: 45deg) */
 })
 
 /* #import "@preview/cetz:0.4.2"

@@ -150,14 +150,19 @@
   // TODO add rotate option
   // TODO merge the lines
   // TODO check if a left/right combination ends exactly at the second track
+  // TODO make it possible to change body-l and track spacing. But the ratio has to stay the same. So the curve angle stays at 45deg
   let body-l = 2
   let body-h = 1
   let belt-amount = 14
   let belt-h = body-h/belt-amount
   let track-spacing = 2
-  let curve-angle = 45deg
 
   let y = calc.sqrt(calc.pow(body-l,2)+calc.pow(track-spacing/2,2))
+
+  let alph = calc.asin((track-spacing/2)/y)
+  let bet = 180deg - 90deg - alph
+  let gam = 90deg - alph
+  let curve-angle = 180deg - 2* gam
   
   let middle-r = (y/2) / calc.sin(curve-angle/2)
   let outer-r = middle-r + body-h/2
@@ -176,7 +181,7 @@
         // TODO merge path does not merge the beginning with the end properly
         line((0, body-h/2), (rel: (0, - body-h)), name:"vertical-line")
         arc((), start: 270deg, delta: curve-angle, radius: outer-r, name: "outer-curve")
-        line((), (rel: (angle: 45deg + 90deg, radius: body-h)), name: "diagonal-line")
+        line((), (rel: (angle: curve-angle + 90deg, radius: body-h)), name: "diagonal-line")
         arc((), start: curve-angle + 270deg, delta: -curve-angle, radius: outer-r - body-h)
         //arc("vertical-line.start", start: 270deg, delta: 45deg, radius: outer-r - body-h, name: "inner-curve")
         //line("outer-curve.end", "inner-curve.end", name: "diagonal-line")
@@ -188,11 +193,9 @@
   )
 }
 
-#let calc-radius() = {
+#let calc-radius(labeling: true) = {
     import cetz.draw: *
-  // TODO add rotate option
-  // TODO merge the lines
-  // TODO check if a left/right combination ends exactly at the second track
+  // TODO find the relation between L and h(track-spacing) so curve angle is 45 deg
   let body-l = 2
   let body-h = 1
   let belt-amount = 14
@@ -209,42 +212,55 @@
   let middle-r = (y/2) / calc.sin(curve-angle/2)
   let outer-r = middle-r + body-h/2
 
+  set-style(line: (stroke: gray))
+
   circle((0,0), radius: 0.1, stroke: none, fill: blue, name: "origin")
   circle((rel: (body-l, track-spacing/2)), radius: 0.1, stroke: none, fill: blue, name: "mid-point")
+  circle((rel: (0, middle-r), to: "origin"), radius: 0.1, stroke: none, fill: blue, name: "circle-center")
 
   line("origin", (body-l, 0), name: "L")
   line("L.end", "mid-point", name: "h")
   line("origin", "mid-point", name: "y")
-  line("origin", (rel: (0,3)), name: "radius-vertical")
-  line("mid-point", (rel: (angle: 270deg-(bet+gam), radius: 3)), name: "radius-diagonal")
+  line("origin", (rel: (0,middle-r)), name: "radius-vertical")
+  line("mid-point", (rel: (angle: 270deg-(bet+gam), radius: middle-r)), name: "radius-diagonal")
 
-  content("L.mid", [L])
-  content("h.mid", [h])
-  content("y.mid", [y])
-  cetz.angle.angle("L.start",  "L.end", "y.end", radius: 30%, label: $alpha$)
-  cetz.angle.angle("y.end",  "y.start", "h.start", radius: 30%, label: $beta$)
-  cetz.angle.angle("L.start",   "y.end", "radius-vertical.end", radius: 30%, label: $gamma$)
-  cetz.angle.angle("y.end", "radius-diagonal.end", "y.start",  radius: 30%, label: $gamma$)
+  arc("origin", start: 270deg, delta: curve-angle, radius: middle-r, name: "radius", stroke: red)
 
-  //line("origin", ())
+  if labeling == true {
+      content("L.mid", [L])
+    content("h.mid", [h])
+    content("y.mid", [y])
+    content("radius-diagonal.mid", [r])
+    content("radius-vertical.mid", [r])
+    cetz.angle.angle("L.start",  "L.end", "y.end", radius: 30%, label: $alpha$)
+    cetz.angle.angle("y.end",  "y.start", "h.start", radius: 30%, label: $beta$)
+    cetz.angle.angle("L.start",   "y.end", "radius-vertical.end", radius: 30%, label: $gamma$)
+    cetz.angle.angle("y.end", "radius-diagonal.end", "y.start",  radius: 30%, label: $gamma$)
+    cetz.angle.angle("circle-center", "radius-vertical.start", "radius-diagonal.start",   radius: 30%, label: $theta$)
 
-  content((0, -1), [
-    $alpha$ = #alph\
-    $beta$ = #bet\
-    $gamma$ = #gam\
-    curve angle = #curve-angle
-  ])
+    //line("origin", ())
+
+    content((0, -1), [
+      $alpha$ = #alph\
+      $beta$ = #bet\
+      $gamma$ = #gam\
+      $theta$ = curve-angle = #curve-angle
+    ])
+
+  }
+
 
 }
 
 #cetz.canvas({
   import cetz.draw: *
   calc-radius()
+})
 
-
-/*   curved-track((), name: "curve-1")
-  circle("curve-1.end", radius: 0.1, stroke: none, fill: red)
-  curved-track("curve-1", x-rot: 180deg, z-rot: 45deg) */
+#cetz.canvas({
+  import cetz.draw: *
+  calc-radius(labeling: false)
+  curved-track((0,0))
 })
 
 /* #import "@preview/cetz:0.4.2"

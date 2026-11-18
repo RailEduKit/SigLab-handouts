@@ -163,8 +163,16 @@
   draw-track-series((0,2))
   curved-track((0,0), name: "curve-1")
   circle("curve-1.end", radius: 0.1, stroke: none, fill: red)
-  curved-track("curve-1", x-rot: 180deg, z-rot: 45deg)
+  curved-track("curve-1", x-rot: 180deg, z-rot: 53.15deg)
   
+})
+
+#cetz.canvas({
+  import cetz.draw: *
+  curved-track((0,0), name: "curve-1")
+  curved-track("curve-1", z-rot: 53.15deg, name: "curve-2")
+  curved-track("curve-2", z-rot: 53.15deg, name: "curve-3")
+  curved-track("curve-3", z-rot: 53.15deg, name: "curve-4")
 })
 
 

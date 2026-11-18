@@ -155,23 +155,12 @@
   let belt-amount = 14
   let belt-h = body-h/belt-amount
   let track-spacing = 2
+  let curve-angle = 45deg
+
+  let y = calc.sqrt(calc.pow(body-l,2)+calc.pow(track-spacing/2,2))
   
-  let curve-end = (body-l, (body-h+track-spacing)/2) 
-  let x = calc.sqrt(calc.pow(body-h/2,2)/2)
-  let south-east = (body-l+x, (body-h+track-spacing)/2 -x) 
-  let y = calc.sqrt(calc.pow(south-east.at(0), 2) + calc.pow(south-east.at(1), 2))
-  let alpha = calc.asin(south-east.at(1)/y)
-  let beta = 90deg - alpha
-  let curve-angle = (180deg - 90deg - beta)*2
-  let outer-r = (y/2) / calc.sin(curve-angle/2)
-  content((0,-3),[#x])
-
-
-
-/*   let curve-angle = 45deg
-  let outer-curve-h = 1.5 * body-h - calc.sqrt(calc.pow(body-h/2,2)/2)
-  let x = calc.sqrt(calc.pow(body-l,2)+calc.pow(outer-curve-h,2))
-  let outer-r = (x/2) / calc.sin(curve-angle/2) */
+  let middle-r = (y/2) / calc.sin(curve-angle/2)
+  let outer-r = middle-r + body-h/2
   
   set-origin(a)
   rotate(z: z-rot, x: x-rot)
@@ -209,29 +198,42 @@
   let belt-amount = 14
   let belt-h = body-h/belt-amount
   let track-spacing = 2
+
+  let y = calc.sqrt(calc.pow(body-l,2)+calc.pow(track-spacing/2,2))
+
+  let alph = calc.asin((track-spacing/2)/y)
+  let bet = 180deg - 90deg - alph
+  let gam = 90deg - alph
+  let curve-angle = 180deg - 2* gam
   
-  let curve-end = (body-l, (body-h+track-spacing)/2) // Bedingung damit 2 Bögen genau auf dem nächsten TRack liegen
-  let x = calc.sqrt(calc.pow(body-h/2,2)/2) 
-  let south-east = (body-l+x, (body-h+track-spacing)/2 -x) // Hier muss der Bogen enden, damit die diagonale gerade genau an der richtigen Stelle liegt 
-  let south-west = (0,0) // hier startet der Bogen
-  let y = calc.sqrt(calc.pow(south-east.at(0), 2) + calc.pow(south-east.at(1), 2))
-  let alpha = calc.asin(south-east.at(1)/y)
-  let beta = 90deg - alpha
-  let curve-angle = (180deg - 90deg - beta)*2
-  let outer-r = (y/2) / calc.sin(curve-angle/2)
+  let middle-r = (y/2) / calc.sin(curve-angle/2)
+  let outer-r = middle-r + body-h/2
 
-  circle(curve-end, radius: 0.1, stroke: none, fill: red)
-  circle(south-east, radius: 0.1, stroke: none, fill: blue)
-  circle(south-west, radius: 0.1, stroke: none, fill: blue)
+  circle((0,0), radius: 0.1, stroke: none, fill: blue, name: "origin")
+  circle((rel: (body-l, track-spacing/2)), radius: 0.1, stroke: none, fill: blue, name: "mid-point")
 
-  line(south-west, (rel: (0, body-h)), name: "vertical-line")
-  line(south-east, (rel: (angle: 45deg + 90deg, radius: body-h)), name: "diagonal-line")
+  line("origin", (body-l, 0), name: "L")
+  line("L.end", "mid-point", name: "h")
+  line("origin", "mid-point", name: "y")
+  line("origin", (rel: (0,3)), name: "radius-vertical")
+  line("mid-point", (rel: (angle: 270deg-(bet+gam), radius: 3)), name: "radius-diagonal")
 
-  line("diagonal-line.mid", (rel: (angle: 270deg, radius: x)))
-  line((), (rel: (angle: 0deg, radius: x)))
+  content("L.mid", [L])
+  content("h.mid", [h])
+  content("y.mid", [y])
+  cetz.angle.angle("L.start",  "L.end", "y.end", radius: 30%, label: $alpha$)
+  cetz.angle.angle("y.end",  "y.start", "h.start", radius: 30%, label: $beta$)
+  cetz.angle.angle("L.start",   "y.end", "radius-vertical.end", radius: 30%, label: $gamma$)
+  cetz.angle.angle("y.end", "radius-diagonal.end", "y.start",  radius: 30%, label: $gamma$)
 
-  line(south-west, (rel: (angle: (90deg - 67.5deg), radius: y)))
-  content((0,-3),[#curve-angle])
+  //line("origin", ())
+
+  content((0, -1), [
+    $alpha$ = #alph\
+    $beta$ = #bet\
+    $gamma$ = #gam\
+    curve angle = #curve-angle
+  ])
 
 }
 

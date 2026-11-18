@@ -134,21 +134,6 @@
 #cetz.canvas({
   import cetz.draw: *
 
-    let body-l = 2
-  let body-h = 1
-  let belt-amount = 14
-  let belt-h = body-h/belt-amount
-  let track-spacing = 2
-  
-  let curve-end = (body-l, (body-h+track-spacing)/2) 
-  let x = calc.sqrt(calc.pow(body-h/2,2)/2)
-  let south-east = (body-l+x, (body-h+track-spacing)/2 -x) 
-  let y = calc.sqrt(calc.pow(south-east.at(0), 2) + calc.pow(south-east.at(1), 2))
-  let alpha = calc.asin(south-east.at(1)/y)
-  let beta = 90deg - alpha
-  let curve-angle = (180deg - 90deg - beta)*2
-  let outer-r = (y/2) / calc.sin(curve-angle/2)
-
   /* 
     test a good distance between two straight tracks
    */
@@ -178,7 +163,7 @@
   draw-track-series((0,2))
   curved-track((0,0), name: "curve-1")
   circle("curve-1.end", radius: 0.1, stroke: none, fill: red)
-  curved-track("curve-1", x-rot: 180deg, z-rot: curve-angle)
+  curved-track("curve-1", x-rot: 180deg, z-rot: 45deg)
   
 })
 
